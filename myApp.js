@@ -1,7 +1,9 @@
+const dotenv = require('dotenv').config()
+
 const express = require('express');
 const app = express();
-require('dotenv').config()
 
+app.use(logger)
 
 app.get("/", (req, res) => {
   res.sendFile(`${__dirname}/views/index.html`)
@@ -17,5 +19,11 @@ app.get("/json", (req, res) => {
 })
 
 app.use("/public", express.static(__dirname + "/public"))
+
+function logger(req, res, next) {
+  console.log(`${req.method} ${req.path} - ${req.ip}`)
+  next()
+  return
+}
 
 module.exports = app;
