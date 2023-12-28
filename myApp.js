@@ -3,6 +3,7 @@ const dotenv = require('dotenv').config()
 const express = require('express');
 const app = express();
 
+app.use("/public", express.static(__dirname + "/public"))
 app.use(logger)
 
 app.get("/", (req, res) => {
@@ -18,12 +19,22 @@ app.get("/json", (req, res) => {
   }
 })
 
-app.use("/public", express.static(__dirname + "/public"))
+app.get('/now', getNow, (req, res) => {
+  res.json({"time": req.time})
+})
+
 
 function logger(req, res, next) {
-  console.log(`${req.method} ${req.path} - ${req.ip}`)
+  console.log(`${req.method} ${__dirname+req.path} - ${req.ip}`)
   next()
   return
 }
+
+function getNow(req, res, next) {
+  req.time = new Date().toString()
+  next()
+}
+
+
 
 module.exports = app;
