@@ -33,6 +33,9 @@ app.route('/:word/echo')
 app.get('/name', (req, res) => {
   res.json( { "name": `${req.query.first} ${req.query.last}` } )
 })
+app.post('/name', (req, res)  => {
+  res.json({"name": `${req.body.first} ${req.body.last}`})
+})
 
 function logger(req, res, next) {
   console.log(`${req.method} ${__dirname+req.path} - ${req.ip}`)
